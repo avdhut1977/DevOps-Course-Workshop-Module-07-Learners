@@ -1,9 +1,13 @@
 name: Continuous Integration
-on: [push]                      # Will make the workflow run every time you push to any branch
+on: [push]
 
 jobs:
   build:
     name: Build and test
-    runs-on: ubuntu-latest      # Sets the build environment a machine with the latest Ubuntu installed
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2 # Adds a step to checkout the repository code
+    - uses: actions/checkout@v2
+
+
+    - name: Hello world       # Name of step
+      run: echo 'Hello world' # Command to run
