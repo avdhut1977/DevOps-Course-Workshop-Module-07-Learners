@@ -1,16 +1,37 @@
 name: Continuous Integration
-on: [push]
+on: [push]                      # Will make the workflow run every time you push to any branch
 
 jobs:
   build:
     name: Build and test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest      # Sets the build environment a machine with the latest Ubuntu installed    
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2 # Adds a step to checkout the repository code
+    - uses: actions/setup-dotnet@v1 # Adds a step to setup the .NET
+      with:
+        dotnet-version: '5.0.x'
+    
+    - name: build
+      run: dotnet build
+    
+    - name: test
+      run: dotnet test
+    
+    - name: npm ci
+      run: npm ci
+      working-directory: ./DotnetTemplate.Web
 
-    - name: Hello world
-      uses: actions/hello-world-javascript-action@v1.1 # Name of the action. This uses https://github.com/actions/hello-world-javascript-action
-      with:                                            # This section is needed if you need to pass arg
-
-      uments to the action
-        who-to-greet: 'Mona the Octocat'
+    - name: npm build
+      run: npm run build
+      working-directory: ./DotnetTemplate.Web
+    
+    - name: npm t
+      run: npm t
+      working-directory: ./DotnetTemplate.Web
+    
+    - name: npm run lint
+      run: npm run lint
+      working-directory: ./DotnetTemplate.Web
+      
+    - name: exit
+      run: exit 0 
