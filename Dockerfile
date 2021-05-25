@@ -3,7 +3,7 @@
 WORKDIR /App
 
 # Copy csproj and restore as distinct layers
-COPY *.csproj ./
+#COPY *.csproj ./
 
 # Copy everything else and build
 COPY . ./
