@@ -35,3 +35,42 @@ jobs:
       
     - name: exit
       run: exit 0 
+
+      deploy:   
+    runs-on: ubuntu-latest      # Sets the build environment a machine with the latest Ubuntu installed
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v2 # Adds a step to checkout the repository code
+    - uses: actions/setup-dotnet@v1 # Adds a step to setup the .NET
+      with:
+        dotnet-version: '5.0.x'      
+    
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}    
+
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./Dockerfile        
+        push: true
+        tags: avdhut1977/dotnetapp:latest
+        run: exit 0
+        
+    - name: Heroku/build
+      uses: akhileshns/heroku-deploy@v3.6.8 # This is the action
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "dotnetapp1" #Must be unique in Heroku
+        heroku_email: "avdhut_1977@yahoo.com"
+        usedocker: true
