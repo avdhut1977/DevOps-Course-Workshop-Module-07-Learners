@@ -36,7 +36,7 @@ jobs:
     - name: exit
       run: exit 0 
 
-      deploy:   
+  deploy:   
     runs-on: ubuntu-latest      # Sets the build environment a machine with the latest Ubuntu installed
     needs: build
     if: github.ref == 'refs/heads/main'
@@ -44,7 +44,7 @@ jobs:
     - uses: actions/checkout@v2 # Adds a step to checkout the repository code
     - uses: actions/setup-dotnet@v1 # Adds a step to setup the .NET
       with:
-        dotnet-version: '5.0.x'      
+        dotnet-version: '3.1.x'      
     
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
