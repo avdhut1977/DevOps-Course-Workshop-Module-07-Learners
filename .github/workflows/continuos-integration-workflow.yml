@@ -64,7 +64,9 @@ jobs:
         context: .
         file: ./Dockerfile        
         push: true
-        tags: avdhut1977/dotnetapp:latest
+        tags: |
+          avdhut1977/dotnetapp:latest
+          avdhut1977/dotnetapp:${{ github.sha }}
         run: exit 0
         
     - name: Heroku/build
